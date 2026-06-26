@@ -1,5 +1,9 @@
 {
+  "name": "aprifoxy-flooring-root",
+  "private": true,
+  "version": "1.0.0",
   "scripts": {
+    "postinstall": "npm --prefix ./aprifoxy-flooring install",
     "dev": "npm --prefix ./aprifoxy-flooring run dev",
     "build": "npm --prefix ./aprifoxy-flooring run build",
     "lint": "npm --prefix ./aprifoxy-flooring run lint",
