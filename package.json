@@ -1,4 +1,10 @@
 {
+  "scripts": {
+    "dev": "npm --prefix ./aprifoxy-flooring run dev",
+    "build": "npm --prefix ./aprifoxy-flooring run build",
+    "lint": "npm --prefix ./aprifoxy-flooring run lint",
+    "preview": "npm --prefix ./aprifoxy-flooring run preview"
+  },
   "devDependencies": {
     "autoprefixer": "^10.5.0",
     "postcss": "^8.5.15",
