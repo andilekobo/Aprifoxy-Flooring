@@ -64,6 +64,10 @@ export default function AfripoxyWebsite() {
   }, [])
 
   useEffect(() => {
+    if (currentPage !== 'home') {
+      return
+    }
+
     const storyPanels = Array.from(document.querySelectorAll('.story-panel'))
     if (!storyPanels.length) {
       return
@@ -115,7 +119,7 @@ export default function AfripoxyWebsite() {
     storyPanels.forEach((panel) => observer.observe(panel))
 
     return () => observer.disconnect()
-  }, [])
+  }, [currentPage])
 
   useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
@@ -350,7 +354,7 @@ export default function AfripoxyWebsite() {
     if (currentPage === 'projects') {
       window.history.pushState({}, '', '/')
       setCurrentPage('home')
-      requestAnimationFrame(scrollToSection)
+      window.setTimeout(scrollToSection, 80)
       return
     }
 
