@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { Analytics } from '@vercel/analytics/react'
 import img1 from './assets/7745.jpg'
 import img2 from './assets/46058.jpg'
 import img3 from './assets/46258.jpg'
@@ -780,6 +781,7 @@ export default function AfripoxyWebsite() {
           </div>
         </div>
       </footer>
+      <Analytics />
     </div>
   )
 }
