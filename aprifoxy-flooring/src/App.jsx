@@ -8,6 +8,8 @@ import img4 from './assets/46324.jpg'
 import img5 from './assets/46334.jpg'
 import img6 from './assets/46336.jpg'
 import logo from './assets/Afripoxy-Flooring-Logo-e1747045780513.png'
+import ProductPage from './ProductPage'
+import './ProductPage.css'
 
 const projectGallery = Object.entries(
   import.meta.glob('./assets/*.{jpg,jpeg,JPG,JPEG}', { eager: true, import: 'default' })
@@ -27,9 +29,12 @@ export default function AfripoxyWebsite() {
   const [activePanelIndex, setActivePanelIndex] = useState(0)
   const [autoSlideEnabled, setAutoSlideEnabled] = useState(true)
   const [isIntroVisible, setIsIntroVisible] = useState(true)
-  const [currentPage, setCurrentPage] = useState(() =>
-    window.location.pathname.toLowerCase().startsWith('/projects') ? 'projects' : 'home'
-  )
+  const [currentPage, setCurrentPage] = useState(() => {
+    const pathname = window.location.pathname.toLowerCase()
+    if (pathname.startsWith('/shop')) return 'shop'
+    if (pathname.startsWith('/projects')) return 'projects'
+    return 'home'
+  })
   const whatsappNumber = '27786677565'
 
   const [theme, setTheme] = useState(() => {
@@ -54,8 +59,14 @@ export default function AfripoxyWebsite() {
 
   useEffect(() => {
     const syncRoute = () => {
-      const nextPage = window.location.pathname.toLowerCase().startsWith('/projects') ? 'projects' : 'home'
-      setCurrentPage(nextPage)
+      const pathname = window.location.pathname.toLowerCase()
+      if (pathname.startsWith('/shop')) {
+        setCurrentPage('shop')
+      } else if (pathname.startsWith('/projects')) {
+        setCurrentPage('projects')
+      } else {
+        setCurrentPage('home')
+      }
     }
 
     window.addEventListener('popstate', syncRoute)
@@ -339,6 +350,14 @@ export default function AfripoxyWebsite() {
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
+  const openShopPage = (event) => {
+    event.preventDefault()
+    window.history.pushState({}, '', '/shop')
+    setCurrentPage('shop')
+    setAutoSlideEnabled(false)
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
   const goToHomeSection = (event, sectionId = 'home') => {
     event.preventDefault()
 
@@ -351,7 +370,7 @@ export default function AfripoxyWebsite() {
       }
     }
 
-    if (currentPage === 'projects') {
+    if (currentPage === 'projects' || currentPage === 'shop') {
       window.history.pushState({}, '', '/')
       setCurrentPage('home')
       window.setTimeout(scrollToSection, 80)
@@ -402,9 +421,11 @@ export default function AfripoxyWebsite() {
           </a>
 
           <nav className="nav-links" aria-label="Main navigation">
+            <a href="/" onClick={(event) => goToHomeSection(event, 'home')}>Home</a>
             <a href="/" onClick={(event) => goToHomeSection(event, 'services')}>Services</a>
             <a href="/" onClick={(event) => goToHomeSection(event, 'process')}>Process</a>
             <a href="/projects" onClick={openProjectsPage}>Projects</a>
+            <a href="/shop" onClick={openShopPage}>Shop</a>
             <a href="/" onClick={(event) => goToHomeSection(event, 'reviews')}>Reviews</a>
             <a href="/" onClick={(event) => goToHomeSection(event, 'contact')}>Contact</a>
           </nav>
@@ -426,7 +447,9 @@ export default function AfripoxyWebsite() {
         </div>
       </header>
 
-      {currentPage === 'projects' ? (
+      {currentPage === 'shop' ? (
+        <ProductPage />
+      ) : currentPage === 'projects' ? (
         <main className="projects-page">
           <section className="projects-hero gsap-panel">
             <div className="container projects-head reveal-stagger">
